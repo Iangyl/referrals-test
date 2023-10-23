@@ -17,3 +17,11 @@ export function formatMoney(number) {
 
   return moneyString;
 }
+
+export function truncateText(text, maxLength) {
+  if (text.length <= maxLength) {
+    return text;
+  } else {
+    return text.slice(0, maxLength) + '...';
+  }
+}

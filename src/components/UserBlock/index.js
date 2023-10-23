@@ -1,3 +1,6 @@
+import { useEffect, useRef, useState } from 'react';
+import { truncateText } from '../../utils/helpers';
+
 import {
   fontHeading,
   fontUserStatus,
@@ -28,11 +31,23 @@ const Status = styled.p`
   text-transform: ${textCapitalize};
 `;
 
-const UserBlock = ({ email, userStatus }) => (
-  <UBlock>
-    <Email>{email}</Email>
-    <Status>{userStatus}</Status>
-  </UBlock>
-);
+const UserBlock = ({ email, userStatus }) => {
+  const [containerWidth, setContainerWidth] = useState(0);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const divWidth = containerRef.current.getBoundingClientRect().width;
+      setContainerWidth(divWidth);
+    }
+  }, []);
+
+  return (
+    <UBlock ref={containerRef}>
+      <Email>{truncateText(email, 20)}</Email>
+      <Status>{userStatus}</Status>
+    </UBlock>
+  );
+};
 
 export default UserBlock;
